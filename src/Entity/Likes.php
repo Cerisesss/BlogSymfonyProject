@@ -18,8 +18,10 @@ class Likes
     private ?User $user_like = null;
 
     #[ORM\ManyToOne(inversedBy: 'likes')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Post $post_like = null;
+
+    #[ORM\ManyToOne(inversedBy: 'likes')]
+    private ?Comment $comment_like = null;
 
     public function getId(): ?int
     {
@@ -53,6 +55,18 @@ class Likes
     public function setPostLike(?Post $post_like): static
     {
         $this->post_like = $post_like;
+
+        return $this;
+    }
+
+    public function getCommentLike(): ?Comment
+    {
+        return $this->comment_like;
+    }
+
+    public function setCommentLike(?Comment $comment_like): static
+    {
+        $this->comment_like = $comment_like;
 
         return $this;
     }
