@@ -17,15 +17,15 @@ class Report
     #[ORM\JoinColumn(nullable: false)]
     private ?User $reporter = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reports')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $reported = null;
-
     #[ORM\Column(length: 255)]
     private ?string $reason = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reports')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Post $post_reported = null;
 
     public function getId(): ?int
     {
@@ -51,18 +51,6 @@ class Report
         return $this;
     }
 
-    public function getReported(): ?User
-    {
-        return $this->reported;
-    }
-
-    public function setReported(?User $reported): static
-    {
-        $this->reported = $reported;
-
-        return $this;
-    }
-
     public function getReason(): ?string
     {
         return $this->reason;
@@ -83,6 +71,18 @@ class Report
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getPostReported(): ?Post
+    {
+        return $this->post_reported;
+    }
+
+    public function setPostReported(?Post $post_reported): static
+    {
+        $this->post_reported = $post_reported;
 
         return $this;
     }

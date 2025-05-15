@@ -45,22 +45,22 @@ class User
      */
     #[ORM\OneToMany(targetEntity: Report::class, mappedBy: 'reporter')]
     private Collection $reports_reporter;
-    
-    /**
-     * @var Collection<int, Report>
-     */
-    #[ORM\OneToMany(targetEntity: Report::class, mappedBy: 'reported')]
-    private Collection $reports_reported;
 
     #[ORM\Column]
     private ?bool $isActive = null;
+
+    /**
+     * @var Collection<int, Likes>
+     */
+    #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'user_like')]
+    private Collection $likes;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->reports_reporter = new ArrayCollection();
-        $this->reports_reported = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,36 +213,6 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Report>
-     */
-    public function getReportsReported(): Collection
-    {
-        return $this->reports_reported;
-    }
-
-    public function addReportsReported(Report $reported): static
-    {
-        if (!$this->reports_reported->contains($reported)) {
-            $this->reports_reported->add($reported);
-            $reported->setReported($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReportsReported(Report $reported): static
-    {
-        if ($this->reports_reported->removeElement($reported)) {
-            // set the owning side to null (unless already changed)
-            if ($reported->getReported() === $this) {
-                $reported->setReported(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function isActive(): ?bool
     {
         return $this->isActive;
@@ -251,6 +221,36 @@ class User
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Likes>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Likes $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setUserLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Likes $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUserLike() === $this) {
+                $like->setUserLike(null);
+            }
+        }
 
         return $this;
     }
