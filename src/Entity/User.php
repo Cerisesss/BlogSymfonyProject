@@ -6,10 +6,11 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -54,6 +55,9 @@ class User
      */
     #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'user_like')]
     private Collection $likes;
+
+    #[ORM\Column(length: 255)]
+    private ?string $role = null;
 
     public function __construct()
     {
@@ -251,6 +255,18 @@ class User
                 $like->setUserLike(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }
