@@ -1,0 +1,294 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "email": "admin@example.com",
+            "password": "hashedPassword",
+            "username": "Admin",
+            "role": "admin",
+            "created_at": null,
+            "isActive": true
+        },
+        {
+            "id": 2,
+            "email": "bob@example.com",
+            "password": "hashedPassword",
+            "username": "Bob",
+            "role": "user",
+            "created_at": null,
+            "isActive": true
+        },
+        {
+            "id": 3,
+            "email": "charlie@example.com",
+            "password": "hashedPassword",
+            "username": "Charlie",
+            "role": "user",
+            "created_at": null,
+            "isActive": true
+        },
+        {
+            "id": 4,
+            "email": "david@example.com",
+            "password": "hashedPassword",
+            "username": "David",
+            "role": "user",
+            "created_at": null,
+            "isActive": true
+        },
+        {
+            "id": 5,
+            "email": "emma@example.com",
+            "password": "hashedPassword",
+            "username": "Emma",
+            "role": "user",
+            "created_at": null,
+            "isActive": true
+        }
+    ],
+    "posts": [
+        {
+            "id": 1,
+            "author_id": 1,
+            "title": "Bienvenue sur le forum",
+            "content": "N'hésitez pas à poser vos questions.",
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "author_id": 2,
+            "title": "Symfony ou Laravel ?",
+            "content": "Quel est votre préféré et pourquoi ?",
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "author_id": 3,
+            "title": "🚨 Gagnez un iPhone !",
+            "content": "Cliquez sur le lien pour participer à notre tirage ! https://plouf-plouf.fr/",
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "author_id": 4,
+            "title": "Bonnes pratiques Twig",
+            "content": "Utilisez les blocs et extends intelligemment.",
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 5,
+            "author_id": 5,
+            "title": "Sécurité web",
+            "content": "Toujours échapper les inputs utilisateur.",
+            "created_at": null,
+            "updated_at": null
+        },
+        {
+            "id": 6,
+            "author_id": 1,
+            "title": "Retours sur SymfonyLive",
+            "content": "Très bon événement cette année.",
+            "created_at": null,
+            "updated_at": null
+        }
+    ],
+    "comments": [
+        {
+            "id": 1,
+            "user_id": 2,
+            "post_id": 1,
+            "content": "Merci Alice, super accueil !",
+            "created_at": null
+        },
+        {
+            "id": 2,
+            "user_id": 3,
+            "post_id": 1,
+            "content": "Hâte de participer.",
+            "created_at": null
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "post_id": 2,
+            "content": "Je préfère Symfony, plus structuré.",
+            "created_at": null
+        },
+        {
+            "id": 4,
+            "user_id": 4,
+            "post_id": 3,
+            "content": "Ce post me semble louche...",
+            "created_at": null
+        },
+        {
+            "id": 5,
+            "user_id": 5,
+            "post_id": 4,
+            "content": "Merci pour les conseils Twig.",
+            "created_at": null
+        },
+        {
+            "id": 6,
+            "user_id": 2,
+            "post_id": 5,
+            "content": "Toujours valider côté serveur aussi.",
+            "created_at": null
+        },
+        {
+            "id": 7,
+            "user_id": 3,
+            "post_id": 5,
+            "content": "Exact, les injections c'est critique.",
+            "created_at": null
+        },
+        {
+            "id": 8,
+            "user_id": 4,
+            "post_id": 6,
+            "content": "J'ai adoré la keynote.",
+            "created_at": null
+        },
+        {
+            "id": 9,
+            "user_id": 5,
+            "post_id": 6,
+            "content": "Très inspirant !",
+            "created_at": null
+        },
+        {
+            "id": 10,
+            "user_id": 1,
+            "post_id": 4,
+            "content": "On oublie souvent les macros Twig.",
+            "created_at": null
+        }
+    ],
+    "likes": [
+        {
+            "id": 1,
+            "user_like_id": 2,
+            "post_like_id": 1,
+            "comment_like_id": null
+        },
+        {
+            "id": 2,
+            "user_like_id": 3,
+            "post_like_id": 2,
+            "comment_like_id": null
+        },
+        {
+            "id": 3,
+            "user_like_id": 4,
+            "post_like_id": 4,
+            "comment_like_id": null
+        },
+        {
+            "id": 4,
+            "user_like_id": 5,
+            "post_like_id": 5,
+            "comment_like_id": null
+        },
+        {
+            "id": 5,
+            "user_like_id": 1,
+            "post_like_id": 6,
+            "comment_like_id": null
+        },
+        {
+            "id": 6,
+            "user_like_id": 2,
+            "post_like_id": null,
+            "comment_like_id": 1
+        },
+        {
+            "id": 7,
+            "user_like_id": 3,
+            "post_like_id": null,
+            "comment_like_id": 3
+        },
+        {
+            "id": 8,
+            "user_like_id": 4,
+            "post_like_id": null,
+            "comment_like_id": 4
+        },
+        {
+            "id": 9,
+            "user_like_id": 5,
+            "post_like_id": null,
+            "comment_like_id": 5
+        },
+        {
+            "id": 10,
+            "user_like_id": 1,
+            "post_like_id": null,
+            "comment_like_id": 6
+        },
+        {
+            "id": 11,
+            "user_like_id": 2,
+            "post_like_id": null,
+            "comment_like_id": 7
+        },
+        {
+            "id": 12,
+            "user_like_id": 3,
+            "post_like_id": null,
+            "comment_like_id": 8
+        },
+        {
+            "id": 13,
+            "user_like_id": 4,
+            "post_like_id": null,
+            "comment_like_id": 9
+        },
+        {
+            "id": 14,
+            "user_like_id": 5,
+            "post_like_id": null,
+            "comment_like_id": 10
+        }
+    ],
+    "reports": [
+        {
+            "id": 1,
+            "reporter_id": 1,
+            "post_reported_id": 3,
+            "reason": "Suspect",
+            "created_at": null
+        },
+        {
+            "id": 2,
+            "reporter_id": 2,
+            "post_reported_id": 3,
+            "reason": "Phishing",
+            "created_at": null
+        },
+        {
+            "id": 3,
+            "reporter_id": 4,
+            "post_reported_id": 3,
+            "reason": "Contenu trompeur",
+            "created_at": null
+        },
+        {
+            "id": 4,
+            "reporter_id": 5,
+            "post_reported_id": 3,
+            "reason": "Publicité non autorisée",
+            "created_at": null
+        },
+        {
+            "id": 5,
+            "reporter_id": 1,
+            "post_reported_id": 2,
+            "reason": "Sous entendu raciste",
+            "created_at": null
+        }
+    ]
+}
