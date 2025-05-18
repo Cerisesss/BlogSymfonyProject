@@ -8,6 +8,8 @@ services:
       APP_ENV: ${APP_ENV}
       APP_SECRET: ${APP_SECRET}
       DATABASE_URL: ${DATABASE_URL}
+    volumes:
+    - .:/var/www/html
     depends_on:
       - postgres_db
     expose:
