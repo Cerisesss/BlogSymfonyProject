@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserConnectionForm;
+use App\Form\UserCreateForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\UserForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -17,7 +18,7 @@ class UserController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
-        $form = $this->createForm(UserForm::class, $user);
+        $form = $this->createForm(UserCreateForm::class, $user);
 
         $form->handleRequest($request);
 
@@ -53,7 +54,7 @@ class UserController extends AbstractController
     public function connexion(Request $request, EntityManagerInterface $entityManager)
     {
         $user = new User();
-        $form = $this->createForm(UserForm::class, $user);
+        $form = $this->createForm(UserConnectionForm::class, $user);
 
         $form->handleRequest($request);
 
