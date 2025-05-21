@@ -76,24 +76,24 @@ class Comment
         return $this;
     }
 
-    public function getUserComment(): ?User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUserComment(?User $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getPostComment(): ?Post
+    public function getPost(): ?Post
     {
         return $this->post;
     }
 
-    public function setPostComment(?Post $post): static
+    public function setPost(?Post $post): static
     {
         $this->post = $post;
 

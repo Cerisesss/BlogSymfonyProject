@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
             $password = $this->hasher->hashPassword($newUser, $user->password);
             $newUser->setPassword($password);
             $newUser->setUsername($user->username);
-            $newUser->setRole($user->role);
+            $newUser->setRoles($user->roles);
             $newUser->setCreatedAt(new \DateTimeImmutable());
             $newUser->setIsActive(true);
 

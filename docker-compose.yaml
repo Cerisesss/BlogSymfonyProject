@@ -24,6 +24,7 @@ services:
       - "8182:80"
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - .:/var/www
     depends_on:
       - symfony_app
     networks:

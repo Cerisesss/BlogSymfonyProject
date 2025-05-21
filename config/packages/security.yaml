@@ -10,11 +10,11 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
-        api_login:
+        login:
             pattern: ^/api/login
             stateless: true
             json_login:
-                check_path: api_login_check
+                check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
@@ -50,6 +50,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/postDetail.css') }}" />
+{% endblock %}
+
+{% block title %}
+  Détail du post
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="post-header">
+      <span>{{ post.author.username }}</span>
+      <span>{{ post.createdAt|date('d M Y', 'Europe/Paris') }}</span>
+    </div>
+
+    <h1 class="post-title">{{ post.title }}</h1>
+
+    <p class="post-content">{{ post.content }}</p>
+
+    <div class="post-likes">
+      <span>{{ nbLike }} ❤️</span>
+    </div>
+
+    <div class="comment-section">
+      <h2>Commentaires</h2>
+
+      {% if form is defined and form is not null %}
+        <div class="comment-form">
+          {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+          {{ form_widget(form) }}
+          {{ form_end(form) }}
+        </div>
+      {% endif %}
+
+      {% for comment in comments %}
+        <div class="comment">
+          <div class="comment-meta">
+            <span class="author">{{ comment.comment.user.username }}</span>
+            <span class="date">{{ comment.comment.createdAt|date('d M Y', 'Europe/Paris') }}</span>
+            <p>{{ comment.comment.content }}</p>
+            <div>
+              <span class="likes">{{ comment.commentLike }} ❤️</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

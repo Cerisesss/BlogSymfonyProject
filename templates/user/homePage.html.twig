@@ -1,10 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/homePage.css') }}" />
+{% endblock %}
+
+{% block title %}
+  Accueil
+{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
-    <ul>
-        <li></li>
-    </ul
+  <h1>Home</h1>
+  <ul>
+    <div class="posts-container">
+      {% for post in posts %}
+        <div class="post-card">
+          <a href="/post/{{ post.post.id }}/{{ post.totalLikes }}" class="post-link">
+            <div class="post-header">
+              <span>{{ post.post.author.username }}</span>
+              <span>{{ post.post.createdAt|date('d M Y', 'Europe/Paris') }}</span>
+            </div>
+            <h2 class="post-title">{{ post.post.title }}</h2>
+            <h3 class="post-content">{{ post.post.content }}</h3>
+            <div class="post-footer">
+              <span class="likes">{{ post.totalLikes }} ❤️</span>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </ul>
 {% endblock %}

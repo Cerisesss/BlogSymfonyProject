@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Likes;
+use App\Entity\Post;
 use App\Entity\User;
 use App\Form\UserConnectionForm;
 use App\Form\UserCreateForm;
@@ -11,9 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserController extends AbstractController
 {
+    public function __construct(private HttpClientInterface $client) {}
+
+    #[Route('/', name: 'default')]
+    public function index(): Response
+    {
+        return $this->redirectToRoute('homePage');
+    }
+
+
     #[Route('/createUser', name: 'create_user', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -31,14 +43,14 @@ class UserController extends AbstractController
             );
 
             $user->setPassword($hashedPassword);
-            $user->setRole('user');
+            $user->setRoles(["ROLE_USER"]);
             $user->setIsActive(true);
             $user->setCreatedAt(new \DateTimeImmutable());
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('connection_user');
+            return $this->redirectToRoute('login_user');
         }
 
         return $this->render(
@@ -50,7 +62,7 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/connection', name: 'connection_user', methods: ['GET', 'POST'])]
+    #[Route('/login', name: 'login_user', methods: ['GET', 'POST'])]
     public function connexion(Request $request, EntityManagerInterface $entityManager)
     {
         $user = new User();
@@ -59,19 +71,33 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur = $form->getData();
+            $formEmail = $user->getEmail();
+            $formPassword = $user->getPassword();
 
-            $formEmail = $utilisateur->getEmail();
-            $formPassword = $utilisateur->getPassword();
+            try {
+                $response = $this->client->request('POST', 'http://nginx_web/api/login_check', [
+                    'json' => [
+                        'username' => $formEmail,
+                        'password' => $formPassword,
+                    ],
+                ]);
 
-            $dbUser = $entityManager->getRepository(User::class)->findOneBy(
-                [
-                    'email' => $formEmail,
-                ]
-            );
+                if ($response->getStatusCode() === 200) {
+                    $data = $response->toArray();
+                    $jwt = $data['token'];
 
-            if ($dbUser && password_verify($formPassword, $dbUser->getPassword())) {
-                return $this->redirectToRoute('homePage', ['id' => $dbUser->getId()]);
+                    $dbUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $formEmail]);
+
+                    // Stock le token et l'id user en session
+                    $request->getSession()->set('token', $jwt);
+                    $request->getSession()->set('user_id', $dbUser->getId());
+
+                    return $this->redirectToRoute('homePage');
+                } else {
+                    throw new \Exception("Login failed ");
+                }
+            } catch (\Exception $e) {
+                dump($e->getMessage());
             }
         }
 
@@ -84,11 +110,23 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/homePage/{id}', name: 'homePage', methods: ['GET'])]
-    public function success(EntityManagerInterface $entityManager, int $id): Response
+    #[Route('/homePage', name: 'homePage', methods: ['GET'])]
+    public function success(EntityManagerInterface $entityManager): Response
     {
-        $user = $entityManager->getRepository(User::class)->find($id);
+        $posts = $entityManager->getRepository(Post::class)->findAll();
 
-        return $this->render('user/homePage.html.twig',  ['user' => $user]);
+        $postWithLikes = [];
+
+        foreach ($posts as $post) {
+            $totalLikes = $entityManager->getRepository(Likes::class)->totalLikesPerPost($post->getId());
+            $postWithLikes[] = [
+                'post' => $post,
+                'totalLikes' => $totalLikes,
+            ];
+        }
+
+        return $this->render('user/homePage.html.twig',  [
+            'posts' => $postWithLikes,
+        ]);
     }
 }

@@ -5,7 +5,7 @@
             "email": "admin@example.com",
             "password": "hashedPassword",
             "username": "Admin",
-            "role": "admin",
+            "roles": ["ROLE_ADMIN"],
             "created_at": null,
             "isActive": true
         },
@@ -14,7 +14,7 @@
             "email": "bob@example.com",
             "password": "hashedPassword",
             "username": "Bob",
-            "role": "user",
+            "roles": ["ROLE_USER"],
             "created_at": null,
             "isActive": true
         },
@@ -23,7 +23,7 @@
             "email": "charlie@example.com",
             "password": "hashedPassword",
             "username": "Charlie",
-            "role": "user",
+            "roles": ["ROLE_USER"],
             "created_at": null,
             "isActive": true
         },
@@ -32,7 +32,7 @@
             "email": "david@example.com",
             "password": "hashedPassword",
             "username": "David",
-            "role": "user",
+            "roles": ["ROLE_USER"],
             "created_at": null,
             "isActive": true
         },
@@ -41,7 +41,7 @@
             "email": "emma@example.com",
             "password": "hashedPassword",
             "username": "Emma",
-            "role": "user",
+            "roles": ["ROLE_USER"],
             "created_at": null,
             "isActive": true
         }
