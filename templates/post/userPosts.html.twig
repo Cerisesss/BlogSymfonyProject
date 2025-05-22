@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Mes posts
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/userPosts.css') }}" />
+{% endblock %}
+
+{% block body %}
+  <div>
+    <h1>Mes posts</h1>
+
+    <div class="post-form">
+      {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
+
+    <div class="post-list">
+      {% for post in posts %}
+        <div class="post-card">
+          <a href="{{ path('postDetail', { id: post.post.id, nbLike: post.totalLikes }) }}">
+            <h2>{{ post.post.title }}</h2>
+            <p>{{ post.post.createdAt|date('d M Y', 'Europe/Paris') }}</p>
+          </a>
+        </div>
+      {% else %}
+        <p class="no-posts">Aucun post trouvé.</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

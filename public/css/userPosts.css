@@ -1,0 +1,88 @@
+/* Formulaire de création de post (même style que commentaire) */
+.post-form {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.post-form input[type="text"],
+.post-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fdfdfd;
+}
+
+.post-form textarea::placeholder,
+.post-form input::placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+.post-form button,
+.post-form input[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.post-form button:hover,
+.post-form input[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+
+/* Liste des posts */
+.post-list {
+  margin-top: 30px;
+}
+
+.post-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #3498db;
+  transition: box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.post-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.post-card h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.6em;
+  color: #2c3e50;
+}
+
+.post-card p {
+  font-size: 0.95em;
+  color: #777;
+}
+
+.no-posts {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin-top: 30px;
+}
+

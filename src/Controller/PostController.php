@@ -7,8 +7,11 @@ use App\Entity\Likes;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
+use App\Form\PostType;
 use App\Services\Comment\CommentService;
 use App\Services\Comment\DTO\CommentDTO;
+use App\Services\Post\DTO\PostDTO;
+use App\Services\Post\PostService;
 use ConsoleTVs\Profanity\Facades\Profanity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,11 +79,53 @@ final class PostController extends AbstractController
         ]);
     }
 
-    // #[Route('/createPost', name: 'create_post', methods: ['GET', 'POST'])]
-    // public function createPost(Request $request, EntityManagerInterface $entityManager): Response
-    // {
+    #[Route('/postUser', name: 'post_user', methods: ['GET'])]
+    public function listPosts(Request $request, EntityManagerInterface $entityManager, PostService $postService): Response
+    {
+        $userId = $request->getSession()->get('user_id');
 
-    // }
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        $posts = $user->getPosts();
+
+        $postsLikes = [];
+
+        foreach ($posts as $post) {
+            $totalLikes = $entityManager->getRepository(Likes::class)->totalLikesPerPost($post->getId());
+            $postsLikes[] = [
+                'post' => $post,
+                'totalLikes' => $totalLikes,
+            ];
+        }
+
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $content = $form->get('content')->getData();
+
+            $cleanContent = Profanity::blocker($content)->filter();
+
+            $postDTO = new PostDTO();
+            $postDTO->title = $form->get('title')->getData();;
+            $postDTO->content = $cleanContent;
+            $postDTO->user = $user;
+            $postDTO->created_at = new \DateTimeImmutable();
+
+            $postService->create($postDTO);
+
+            return $this->redirectToRoute('postDetail', [
+                'id' => $post->getId(),
+                'nbLike' => 0,
+            ]);
+        }
+
+        return $this->render('post/userPosts.html.twig', [
+            'posts' => $postsLikes,
+            'form' => $form->createView(),
+        ]);
+    }
+
 
     /*#[Route('/updatePost/{id}', name: 'update_post', methods: ['GET', 'POST'])]
     public function updatePost(Request $request, EntityManagerInterface $entityManager): Response

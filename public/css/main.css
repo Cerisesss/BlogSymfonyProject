@@ -3,3 +3,63 @@ body {
     margin: 0;
     padding: 2rem;
 }
+
+.navbar {
+  background-color: #3498db;
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.navbar .login-btn {
+  background-color: #2980b9;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.menu-toggle {
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown {
+  background-color: white;
+  color: #333;
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+.hidden {
+  display: none;
+}

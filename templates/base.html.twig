@@ -19,6 +19,34 @@
     {% endblock %}
   </head>
   <body>
+    <script>
+      function toggleMenu() {
+        document.getElementById('dropdown-menu').classList.toggle('hidden')
+      }
+    </script>
+
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="/homePage" class="logo">Blog Project</a>
+      </div>
+
+      <div class="navbar-right">
+        {% if is_granted('ROLE_USER') %}
+          <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+          <div id="dropdown-menu" class="dropdown hidden">
+            <a href="/postUser">📄 Posts</a>
+            {% if is_granted('ROLE_ADMIN') %}
+              <a href="/admin/allUser">👥 Users</a>
+              <a href="/admin/allReport">🚨 Reports</a>
+            {% endif %}
+            <a href="/logout">👋 Déconnexion</a>
+          </div>
+        {% else %}
+          <a href="/login" class="login-btn">Connexion</a>
+        {% endif %}
+      </div>
+    </nav>
+    
     {% block body %}
 
     {% endblock %}

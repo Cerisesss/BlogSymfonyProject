@@ -91,6 +91,7 @@ class UserController extends AbstractController
                     // Stock le token et l'id user en session
                     $request->getSession()->set('token', $jwt);
                     $request->getSession()->set('user_id', $dbUser->getId());
+                    $request->getSession()->set('user_role', $dbUser->getRoles());
 
                     return $this->redirectToRoute('homePage');
                 } else {
@@ -128,5 +129,20 @@ class UserController extends AbstractController
         return $this->render('user/homePage.html.twig',  [
             'posts' => $postWithLikes,
         ]);
+    }
+
+    #[Route('/logout', name: 'logout_user', methods: ['GET'])]
+    public function logout(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->clear(); 
+
+        return $this->redirectToRoute('login_user');
+    }
+
+    #[Route('/admin/allUser', name: 'all_user', methods: ['GET'])]
+    public function allUser(Request $request): Response
+    {
+        return $this->redirectToRoute('homepage');
     }
 }
