@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/allReport.css') }}" />
+{% endblock %}
+
+{% block title %}
+  Signalements
+{% endblock %}
+
+{% block body %}
+  <h1>Signalements</h1>
+
+  <table class="table-report">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Reporter ID</th>
+        <th>Post signalé</th>
+        <th>Raison</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+        <tr>
+          <td>{{ report.id }}</td>
+          <td>{{ report.reporter.id }}</td>
+          <td>{{ report.postReported.id }}</td>
+          <td>{{ report.reason }}</td>
+          <td>{{ report.createdAt|date('d M Y', 'Europe/Paris') }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="5">Aucun signalement trouvé.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -14,6 +14,9 @@
     <div class="post-header">
       <span>{{ post.author.username }}</span>
       <span>{{ post.createdAt|date('d M Y', 'Europe/Paris') }}</span>
+      <span>
+        <a href="{{ path('report_User', { post_id : post.id }) }}">🚩</a>
+      </span>
     </div>
 
     <h1 class="post-title">{{ post.title }}</h1>

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Report{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/postDetail.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+      <div class="comment-form">
+        {{form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+        {{form_widget(form)}}
+        {{form_end(form)}}
+      </div>
+    </div>
+{% endblock %}
