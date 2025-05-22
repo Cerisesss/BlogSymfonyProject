@@ -64,8 +64,8 @@ class AppFixtures extends Fixture
         foreach ($jsonData->comments as $comment) {
             $newComment = new Comment();
 
-            $newComment->setUserComment($userId[$comment->user_id]);
-            $newComment->setPostComment($postId[$comment->post_id]);
+            $newComment->setUser($userId[$comment->user_id]);
+            $newComment->setPost($postId[$comment->post_id]);
             $newComment->setContent($comment->content);
             $newComment->setCreatedAt(new \DateTimeImmutable());
 

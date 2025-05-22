@@ -2,8 +2,15 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('css/create.css') }}" />
+{% endblock %}
+
 {% block body %}
-    {{form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
-    {{form_widget(form)}}
-    {{form_end(form)}}
+    <div class="container">
+        {{form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+        {{form_widget(form)}}
+        {{form_end(form)}}
+    </div>
 {% endblock %}

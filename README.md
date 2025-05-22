@@ -51,6 +51,14 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
+7.**Pour vider la base de données et réinitialiser**
+```bash
+docker exec -it symfony_app bash
+php bin/console doctrine:schema:drop --force
+php bin/console doctrine:schema:create
+php bin/console doctrine:fixtures:load
+```
+
 ---
 
 ## Démarrage

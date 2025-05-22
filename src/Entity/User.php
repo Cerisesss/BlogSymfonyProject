@@ -170,7 +170,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserComment($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -180,8 +180,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserComment() === $this) {
-                $comment->setUserComment(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

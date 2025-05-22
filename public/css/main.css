@@ -16,6 +16,10 @@ body {
   z-index: 999;
 }
 
+.navbar-right {
+  position: relative;
+}
+
 .navbar a {
   color: white;
   text-decoration: none;

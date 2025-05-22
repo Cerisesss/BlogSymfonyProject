@@ -1,4 +1,4 @@
-/* Formulaire de création de post (même style que commentaire) */
+/* Form */
 .post-form {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -85,4 +85,3 @@
   font-style: italic;
   margin-top: 30px;
 }
-

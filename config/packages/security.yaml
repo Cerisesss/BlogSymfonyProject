@@ -17,6 +17,14 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            # form_login:
+            #     login_path: login_user
+            #     check_path: login_user
+            #     default_target_path: homePage
+            # logout:
+            #     path: logout_user
+                # where to redirect after logout
+                # target: app_any_route
         api:
             pattern: ^/api
             stateless: true
@@ -29,14 +37,15 @@ security:
             # provider: users_in_memory
             provider: users_provider
             form_login:
-                login_path: security_login
-                check_path: security_login_check
-                default_target_path: security_login
-                username_parameter: "login[email]"
-                password_parameter: "login[password]"
+                login_path: login_user
+                check_path: login_user
+                enable_csrf: true
+                default_target_path: homePage
+                # username_parameter: "login[email]"
+                # password_parameter: "login[password]"
             logout:
-                path: security_logout
-                target: categorie-list
+                path: logout_user
+                target: homePage
             entry_point: form_login
             
             # activate different ways to authenticate

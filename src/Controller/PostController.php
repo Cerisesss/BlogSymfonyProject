@@ -12,19 +12,20 @@ use App\Services\Comment\CommentService;
 use App\Services\Comment\DTO\CommentDTO;
 use App\Services\Post\DTO\PostDTO;
 use App\Services\Post\PostService;
-use ConsoleTVs\Profanity\Facades\Profanity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class PostController extends AbstractController
 {
     #[Route('/post/{id}/{nbLike}', name: 'postDetail', methods: ['GET', 'POST'])]
     public function getPostDetail(Request $request, EntityManagerInterface $entityManager, CommentService $commentService, int $id, int $nbLike): Response
     {
-        $userId = $request->getSession()->get('user_id');
+        $userSession = $this->getUser();
+        $userId = ($userSession instanceof \App\Entity\User) ? $userSession->getId() : null;
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
@@ -52,7 +53,7 @@ final class PostController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $content = $form->get('content')->getData();
 
-                $cleanContent = Profanity::blocker($content)->filter();
+                $cleanContent = \ConsoleTVs\Profanity\Builder::blocker($content)->filter();
 
                 $commentDTO = new CommentDTO();
                 $commentDTO->content = $cleanContent;
@@ -79,10 +80,12 @@ final class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/postUser', name: 'post_user', methods: ['GET'])]
-    public function listPosts(Request $request, EntityManagerInterface $entityManager, PostService $postService): Response
+    #[IsGranted('ROLE_USER')]
+    #[Route('/postUser', name: 'post_user', methods: ['GET', 'POST'])]
+    public function allUserPost(Request $request, EntityManagerInterface $entityManager, PostService $postService): Response
     {
-        $userId = $request->getSession()->get('user_id');
+        $userSession = $this->getUser();
+        $userId = ($userSession instanceof \App\Entity\User) ? $userSession->getId() : null;
 
         $user = $entityManager->getRepository(User::class)->find($userId);
         $posts = $user->getPosts();
@@ -103,19 +106,21 @@ final class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $content = $form->get('content')->getData();
+            $title = $form->get('title')->getData();
 
-            $cleanContent = Profanity::blocker($content)->filter();
+            $cleanContent = \ConsoleTVs\Profanity\Builder::blocker($content)->filter();
+            $cleanTitle = \ConsoleTVs\Profanity\Builder::blocker($title)->filter();
 
             $postDTO = new PostDTO();
-            $postDTO->title = $form->get('title')->getData();;
+            $postDTO->title = $cleanTitle;
             $postDTO->content = $cleanContent;
             $postDTO->user = $user;
             $postDTO->created_at = new \DateTimeImmutable();
 
-            $postService->create($postDTO);
+            $newPost = $postService->create($postDTO);
 
             return $this->redirectToRoute('postDetail', [
-                'id' => $post->getId(),
+                'id' => $newPost->getId(),
                 'nbLike' => 0,
             ]);
         }

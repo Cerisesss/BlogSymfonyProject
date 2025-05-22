@@ -62,55 +62,6 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/login', name: 'login_user', methods: ['GET', 'POST'])]
-    public function connexion(Request $request, EntityManagerInterface $entityManager)
-    {
-        $user = new User();
-        $form = $this->createForm(UserConnectionForm::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formEmail = $user->getEmail();
-            $formPassword = $user->getPassword();
-
-            try {
-                $response = $this->client->request('POST', 'http://nginx_web/api/login_check', [
-                    'json' => [
-                        'username' => $formEmail,
-                        'password' => $formPassword,
-                    ],
-                ]);
-
-                if ($response->getStatusCode() === 200) {
-                    $data = $response->toArray();
-                    $jwt = $data['token'];
-
-                    $dbUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $formEmail]);
-
-                    // Stock le token et l'id user en session
-                    $request->getSession()->set('token', $jwt);
-                    $request->getSession()->set('user_id', $dbUser->getId());
-                    $request->getSession()->set('user_role', $dbUser->getRoles());
-
-                    return $this->redirectToRoute('homePage');
-                } else {
-                    throw new \Exception("Login failed ");
-                }
-            } catch (\Exception $e) {
-                dump($e->getMessage());
-            }
-        }
-
-        return $this->render(
-            'user/create.html.twig',
-            [
-                'form' => $form->createView(),
-                'title' => 'Connexion'
-            ]
-        );
-    }
-
     #[Route('/homePage', name: 'homePage', methods: ['GET'])]
     public function success(EntityManagerInterface $entityManager): Response
     {
@@ -131,18 +82,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'logout_user', methods: ['GET'])]
-    public function logout(Request $request): Response
-    {
-        $session = $request->getSession();
-        $session->clear(); 
-
-        return $this->redirectToRoute('login_user');
-    }
-
     #[Route('/admin/allUser', name: 'all_user', methods: ['GET'])]
     public function allUser(Request $request): Response
     {
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('homePage');
     }
 }
