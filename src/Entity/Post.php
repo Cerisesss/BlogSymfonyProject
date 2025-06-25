@@ -137,27 +137,27 @@ class Post
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setPostComment($this);
-        }
+    // public function addComment(Comment $comment): static
+    // {
+    //     if (!$this->comments->contains($comment)) {
+    //         $this->comments->add($comment);
+    //         $comment->setPostComment($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPostComment() === $this) {
-                $comment->setPostComment(null);
-            }
-        }
+    // public function removeComment(Comment $comment): static
+    // {
+    //     if ($this->comments->removeElement($comment)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($comment->getPostComment() === $this) {
+    //             $comment->setPostComment(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Likes>

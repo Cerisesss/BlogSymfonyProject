@@ -17,6 +17,9 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /**
+     * @return Comment[]
+     */
     public function getCommentByPost(Post $post): array
     {
         return $this->createQueryBuilder('c')

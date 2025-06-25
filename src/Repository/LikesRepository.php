@@ -16,6 +16,9 @@ class LikesRepository extends ServiceEntityRepository
         parent::__construct($registry, Likes::class);
     }
 
+    /**
+     * @return int
+     */
     public function totalLikesPerPost(int $postId)
     {
         return $this->createQueryBuilder('l')
@@ -26,6 +29,10 @@ class LikesRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+
+    /**
+     * @return int
+     */
     public function totalLikesPerComment(int $commentId)
     {
         return $this->createQueryBuilder('l')
