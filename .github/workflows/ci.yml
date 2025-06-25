@@ -23,6 +23,13 @@ jobs:
         with:
           php-version: 8.3
 
+      - name: Create .env file
+        run: |
+          echo "APP_ENV=${{ secrets.APP_ENV }}" >> .env
+          echo "APP_SECRET=${{ secrets.APP_SECRET }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}" >> .env
+
       - name: Install Composer dependencies
         run: |
           curl -sS https://getcomposer.org/installer | php
@@ -40,7 +47,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up PHP 8.1
+      - name: Set up PHP 8.3
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
