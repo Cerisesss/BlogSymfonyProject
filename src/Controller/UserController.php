@@ -69,7 +69,10 @@ class UserController extends AbstractController
         $postWithLikes = [];
 
         foreach ($posts as $post) {
-            $totalLikes = $entityManager->getRepository(Likes::class)->totalLikesPerPost($post->getId());
+            /** @var \App\Repository\LikesRepository $likesRepo */
+            $likesRepo = $entityManager->getRepository(Likes::class);
+            $totalLikes = $likesRepo->totalLikesPerPost($post->getId());
+
             $postWithLikes[] = [
                 'post' => $post,
                 'totalLikes' => $totalLikes,

@@ -35,11 +35,7 @@ class ReportController extends AbstractController
 
             $cleanReason = \ConsoleTVs\Profanity\Builder::blocker($reason)->filter();
 
-            $reportDTO = new ReportDTO();
-            $reportDTO->reporter = $userSession;
-            $reportDTO->post_reported = $post;
-            $reportDTO->reason = $cleanReason;
-            $reportDTO->created_at = new \DateTimeImmutable();
+            $reportDTO = new ReportDTO($userSession, $post, $cleanReason);
 
             $reportService->create($reportDTO);
 

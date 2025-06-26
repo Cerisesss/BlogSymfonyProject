@@ -38,8 +38,8 @@ class PostService
         return $post;
     }
 
-    private function check(PostDTO $data): bool
-    {
-        return $data->user && $data->title && $data->content;
-    }
+    // private function check(PostDTO $data): bool
+    // {
+    //     return $data->user && $data->title && $data->content;
+    // }
 }

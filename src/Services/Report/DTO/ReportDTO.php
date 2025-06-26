@@ -16,6 +16,14 @@ class ReportDTO
 
     #[Assert\NotBlank]
     public string $reason;
-    
+
     public \DateTimeImmutable $created_at;
+
+    public function __construct(User $reporter, Post $post_reported, string $reason)
+    {
+        $this->reporter = $reporter;
+        $this->post_reported = $post_reported;
+        $this->reason = $reason;
+        $this->created_at = new \DateTimeImmutable();
+    }
 }

@@ -39,6 +39,7 @@ final class PostController extends AbstractController
         $formView = null;
 
         foreach ($comments as $comment) {
+            /** @var \App\Repository\LikesRepository $likesRepo */
             $likesRepo = $entityManager->getRepository(Likes::class);
             $commentLike =  $likesRepo->totalLikesPerComment($comment->getId());
 

@@ -38,8 +38,8 @@ class ReportService
         return $report;
     }
 
-    private function check(ReportDTO $data): bool
-    {
-        return $data->reporter && $data->post_reported && $data->reason;
-    }
+    // private function check(ReportDTO $data): bool
+    // {
+    //     return $data->reporter && $data->post_reported && $data->reason;
+    // }
 }
