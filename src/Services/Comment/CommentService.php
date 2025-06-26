@@ -14,15 +14,20 @@ class CommentService
     public function create(CommentDTO $data): Comment
     {
         $errors = $this->validator->validate($data);
-
         if (count($errors) > 0) {
-            throw new \InvalidArgumentException((string) $errors);
-        }
+            $messages = [];
 
+            foreach ($errors as $error) {
+                $messages[] = $error->getPropertyPath() . ': ' . $error->getMessage();
+            }
+
+            throw new \Exception(implode("\n", $messages));
+        }
+        
         $comment = new Comment();
 
         $comment->setContent($data->content);
-        $comment->setPost($data->post); 
+        $comment->setPost($data->post);
         $comment->setUser($data->user);
         $comment->setCreatedAt(new \DateTimeImmutable());
 
@@ -32,8 +37,8 @@ class CommentService
         return $comment;
     }
 
-    private function check(CommentDTO $data): bool
-    {
-        return $data->content && $data->user && $data->post;
-    }
+    // private function check(CommentDTO $data): bool
+    // {
+    //     return $data->content && $data->user && $data->post;
+    // }
 }

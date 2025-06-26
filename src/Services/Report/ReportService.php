@@ -16,13 +16,19 @@ class ReportService
         $errors = $this->validator->validate($data);
 
         if (count($errors) > 0) {
-            throw new \InvalidArgumentException((string) $errors);
+            $messages = [];
+
+            foreach ($errors as $error) {
+                $messages[] = $error->getPropertyPath() . ': ' . $error->getMessage();
+            }
+
+            throw new \Exception(implode("\n", $messages));
         }
 
         $report = new Report();
 
         $report->setReporter($data->reporter);
-        $report->setPostReported($data->post_reported); 
+        $report->setPostReported($data->post_reported);
         $report->setReason($data->reason);
         $report->setCreatedAt(new \DateTimeImmutable());
 

@@ -16,13 +16,19 @@ class PostService
         $errors = $this->validator->validate($data);
 
         if (count($errors) > 0) {
-            throw new \InvalidArgumentException((string) $errors);
+            $messages = [];
+
+            foreach ($errors as $error) {
+                $messages[] = $error->getPropertyPath() . ': ' . $error->getMessage();
+            }
+
+            throw new \Exception(implode("\n", $messages));
         }
 
         $post = new Post();
 
         $post->setAuthor($data->user);
-        $post->setTitle($data->title); 
+        $post->setTitle($data->title);
         $post->setContent($data->content);
         $post->setCreatedAt(new \DateTimeImmutable());
 
