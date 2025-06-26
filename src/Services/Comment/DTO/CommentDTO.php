@@ -10,7 +10,12 @@ class CommentDTO
 {
     #[Assert\NotBlank]
     public string $content;
+
+    #[Assert\NotNull]
     public User $user;
+
+    #[Assert\NotBlank]
     public Post $post;
+    
     public \DateTimeImmutable $created_at;
 }

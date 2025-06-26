@@ -5,15 +5,18 @@ namespace App\Services\Report;
 use App\Entity\Report;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Services\Report\DTO\ReportDTO;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ReportService
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em, private ValidatorInterface $validator) {}
 
     public function create(ReportDTO $data): Report
     {
-        if (!$this->check($data)) {
-            throw new \Exception('unable to create report');
+        $errors = $this->validator->validate($data);
+
+        if (count($errors) > 0) {
+            throw new \InvalidArgumentException((string) $errors);
         }
 
         $report = new Report();

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Likes;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Form\UserConnectionForm;
 use App\Form\UserCreateForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserController extends AbstractController
 {
-    public function __construct(private HttpClientInterface $client) {}
+    //public function __construct(private HttpClientInterface $client) {}
 
     #[Route('/', name: 'default')]
     public function index(): Response

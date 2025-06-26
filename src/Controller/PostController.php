@@ -29,7 +29,11 @@ final class PostController extends AbstractController
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
-        $comments = $entityManager->getRepository(Comment::class)->getCommentByPost($post);
+        /** @var \App\Repository\CommentRepository $commentRepo */
+        $commentRepo = $entityManager->getRepository(Comment::class);
+        $comments = $commentRepo->getCommentByPost($post);
+
+
         $commentWithLikes = [];
 
         $formView = null;
@@ -93,7 +97,10 @@ final class PostController extends AbstractController
         $postsLikes = [];
 
         foreach ($posts as $post) {
-            $totalLikes = $entityManager->getRepository(Likes::class)->totalLikesPerPost($post->getId());
+            /** @var \App\Repository\LikesRepository $likesRepo */
+            $likesRepo = $entityManager->getRepository(Likes::class);
+            $totalLikes = $likesRepo->totalLikesPerPost($post->getId());
+
             $postsLikes[] = [
                 'post' => $post,
                 'totalLikes' => $totalLikes,

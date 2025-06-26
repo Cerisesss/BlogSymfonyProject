@@ -5,15 +5,18 @@ namespace App\Services\Post;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Services\Post\DTO\PostDTO;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PostService
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em, private ValidatorInterface $validator) {}
 
     public function create(PostDTO $data): Post
     {
-        if (!$this->check($data)) {
-            throw new \Exception('unable to create post');
+        $errors = $this->validator->validate($data);
+
+        if (count($errors) > 0) {
+            throw new \InvalidArgumentException((string) $errors);
         }
 
         $post = new Post();

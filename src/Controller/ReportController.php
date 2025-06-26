@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ReportController extends AbstractController
 {
-    public function __construct(private HttpClientInterface $client) {}
+    //public function __construct(private HttpClientInterface $client) {}
 
     #[IsGranted('ROLE_USER')]
     #[Route('/reportUser/{post_id}', name: 'report_User', methods: ['GET', 'POST'])]

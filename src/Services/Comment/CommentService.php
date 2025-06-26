@@ -5,15 +5,18 @@ namespace App\Services\Comment;
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Services\Comment\DTO\CommentDTO;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CommentService
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em, private ValidatorInterface $validator) {}
 
     public function create(CommentDTO $data): Comment
     {
-        if (!$this->check($data)) {
-            throw new \Exception('unable to create comment');
+        $errors = $this->validator->validate($data);
+
+        if (count($errors) > 0) {
+            throw new \InvalidArgumentException((string) $errors);
         }
 
         $comment = new Comment();
