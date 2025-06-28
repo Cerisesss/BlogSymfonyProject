@@ -23,6 +23,7 @@ class ReportController extends AbstractController
     #[Route('/reportUser/{post_id}', name: 'report_User', methods: ['GET', 'POST'])]
     public function reportUser(EntityManagerInterface $entityManager, Request $request, int $post_id, ReportService $reportService): Response
     {
+        /** @var \App\Entity\User $userSession */
         $userSession = $this->getUser();
         $post = $entityManager->getRepository(Post::class)->find($post_id);
 
