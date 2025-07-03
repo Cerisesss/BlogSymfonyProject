@@ -52,6 +52,13 @@ jobs:
         with:
           php-version: 8.3
 
+      - name: Create .env file
+        run: |
+          echo "APP_ENV=${{ secrets.APP_ENV }}" >> .env
+          echo "APP_SECRET=${{ secrets.APP_SECRET }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}" >> .env
+
       - name: Install Composer dependencies
         run: |
           curl -sS https://getcomposer.org/installer | php

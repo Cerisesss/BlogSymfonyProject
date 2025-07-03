@@ -19,13 +19,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-final class PostController extends AbstractController
+class PostController extends AbstractController
 {
     #[Route('/post/{id}/{nbLike}', name: 'postDetail', methods: ['GET', 'POST'])]
     public function getPostDetail(Request $request, EntityManagerInterface $entityManager, CommentService $commentService, int $id, int $nbLike): Response
     {
         $userSession = $this->getUser();
-        $userId = ($userSession instanceof \App\Entity\User) ? $userSession->getId() : null;
+        $userId = ($userSession instanceof User) ? $userSession->getId() : null;
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
